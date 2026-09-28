@@ -1,4 +1,4 @@
-# iTech Service Sales — Catálogo Zabbix + ServiceNow
+# iTech Service Sales
 
 Projeto acadêmico evolutivo de JavaScript e React contextualizado como uma **Vitrine de Ativos e Integrações de TI**. Os exemplos usam Zabbix e ServiceNow apenas como contexto didático.
 
