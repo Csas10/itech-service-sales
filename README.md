@@ -1,4 +1,4 @@
-# iTech Service Sales — Catálogo Zabbix + ServiceNow
+# iTech Service Sales
 
 Projeto acadêmico evolutivo de JavaScript e React. A **Unidade 1** implementou o catálogo no console com JavaScript ES6+. A **Unidade 2** transforma os mesmos conceitos em uma interface React criada com Vite.
 
