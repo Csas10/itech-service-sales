@@ -1,107 +1,88 @@
 import { Produto } from './Produto.js';
 
-// Todos os preços abaixo são fictícios e servem apenas ao exercício.
-const produtos = [
-  new Produto({
-    codigo: 'ZBX-AGENT',
-    nome: 'Zabbix Agent',
-    fabricante: 'Zabbix',
-    categoria: 'Componente',
-    preco: 0,
-    descricao: 'Coleta ilustrativa de métricas dos ativos monitorados.',
-  }),
-  new Produto({
-    codigo: 'ZBX-PROXY',
-    nome: 'Zabbix Proxy',
-    fabricante: 'Zabbix',
-    categoria: 'Componente',
-    preco: 0,
-    descricao: 'Intermediação ilustrativa da coleta de monitoramento.',
-  }),
-  new Produto({
-    codigo: 'ZBX-SUPORTE',
-    nome: 'Suporte Zabbix',
-    fabricante: 'Zabbix',
-    categoria: 'Serviço',
-    preco: 450,
-    descricao: 'Item hipotético para demonstrar uma contratação de suporte.',
-  }),
-  new Produto({
-    codigo: 'SN-ITSM',
-    nome: 'ServiceNow ITSM',
-    fabricante: 'ServiceNow',
-    categoria: 'Módulo',
-    preco: 1200,
-    descricao: 'Exemplo de gestão de incidentes e serviços.',
-  }),
-  new Produto({
-    codigo: 'SN-ITOM',
-    nome: 'ServiceNow ITOM',
-    fabricante: 'ServiceNow',
-    categoria: 'Módulo',
-    preco: 1800,
-    descricao: 'Exemplo de operações e visibilidade da infraestrutura.',
-  }),
-];
+// 1. Variáveis: const, let e var.
+const nomeLoja = 'iTech Service Sales';
+let descontoPadrao = 0.1;
+var categoriaPrincipal = 'Monitoramento';
 
-// Objeto literal que reúne os dados da vitrine.
-const catalogo = {
-  nome: 'iTech Service Sales — Vitrine de Ativos e Integrações de TI',
-  moeda: 'BRL',
-  produtos,
-};
-
-// Função tradicional e reduce: soma os preços demonstrativos de um exemplar de cada item.
-function calcularTotal(itens) {
-  return itens.reduce((total, { preco }) => total + preco, 0);
-}
-
-// Arrow function para apresentar valores no console.
-const formatarMoeda = (valor) =>
-  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: catalogo.moeda }).format(valor);
-
-// var tem escopo de função; aparece aqui apenas para comparação acadêmica com let e const.
-function criarCabecalho() {
-  var titulo = catalogo.nome;
-  return `=== ${titulo} ===`;
-}
-
-console.log(criarCabecalho());
+console.log(`=== ${nomeLoja.toUpperCase()} ===`);
+console.log('Vitrine de Ativos e Integrações de TI - Zabbix & ServiceNow');
 console.log('Valores fictícios para demonstração acadêmica.\n');
 
-// map transforma cada Produto em uma linha de apresentação; destructuring extrai seus campos.
-const linhas = catalogo.produtos.map((produto) => {
-  const { preco } = produto;
-  const tipo = preco === 0 ? 'sem preço atribuído' : 'valor simulado';
-  return `${produto.apresentar()} | ${formatarMoeda(preco)} (${tipo})`;
-});
-// let guarda a numeração crescente durante a apresentação.
-let numero = 0;
-for (const linha of linhas) {
-  numero += 1;
-  console.log(`${numero}. ${linha}`);
+// 2. Função tradicional: recebe preço e desconto e devolve o valor final.
+function calcularValorFinal(preco, desconto) {
+  return preco * (1 - desconto);
 }
 
-// filter seleciona os itens com preço acima de zero.
-const itensComPreco = catalogo.produtos.filter(({ preco }) => preco > 0);
+// 2. Arrow function equivalente.
+const calcularValorFinalArrow = (preco, desconto) => preco * (1 - desconto);
 
-console.log(`\nItens com preço demonstrativo: ${itensComPreco.length}`);
-console.log(`Total de um exemplar por item: ${formatarMoeda(calcularTotal(catalogo.produtos))}`);
-
-// Spread cria outro catálogo sem alterar o array nem o objeto originais.
-const catalogoExpandido = {
-  ...catalogo,
-  produtos: [
-    ...catalogo.produtos,
-    new Produto({
-      codigo: 'ZBX-INTEGRACAO',
-      nome: 'Integração Zabbix + ServiceNow (exemplo)',
-      fabricante: 'iTech',
-      categoria: 'Integração',
-      preco: 0,
-      descricao: 'Fluxo conceitual de eventos de monitoramento para gestão de serviços.',
-    }),
-  ],
+// 3. Objeto literal representando um produto.
+const produtoLiteral = {
+  nome: 'Conector Customizado Zabbix API',
+  preco: 1200,
+  categoria: 'Integração',
 };
-console.log(`Catálogo original: ${catalogo.produtos.length} itens`);
-console.log(`Catálogo expandido com spread: ${catalogoExpandido.produtos.length} itens`);
+
+console.log('>>> Objeto literal:');
+console.log(produtoLiteral);
+console.log(
+  `Função tradicional: R$ ${calcularValorFinal(produtoLiteral.preco, descontoPadrao).toFixed(2)}`,
+);
+console.log(
+  `Arrow function: R$ ${calcularValorFinalArrow(produtoLiteral.preco, descontoPadrao).toFixed(2)}`,
+);
+
+// 4. Array com 5 produtos. Todos os preços são fictícios.
+const catalogoOriginal = [
+  new Produto('Zabbix Agent', 0, 'Monitoramento'),
+  new Produto('Zabbix Proxy', 0, 'Monitoramento'),
+  new Produto('Suporte Zabbix - Exemplo Acadêmico', 450, 'Serviço'),
+  new Produto('ServiceNow ITSM', 1200, 'Gestão (ITSM)'),
+  new Produto('ServiceNow ITOM', 1800, 'Gestão (ITOM)'),
+];
+
+// 4A. map: lista apenas os nomes dos produtos.
+const nomesProdutos = catalogoOriginal.map(({ nome }) => nome);
+console.log('\n>>> [MAP] Nomes dos produtos:');
+console.log(nomesProdutos);
+
+// 4B. filter: filtra uma categoria específica.
+const produtosMonitoramento = catalogoOriginal.filter(
+  ({ categoria }) => categoria === categoriaPrincipal,
+);
+console.log(`\n>>> [FILTER] Categoria "${categoriaPrincipal}":`);
+produtosMonitoramento.forEach((produto) => console.log(produto.exibirInfo()));
+
+// 4C. reduce: calcula o preço total do catálogo.
+const precoTotal = catalogoOriginal.reduce((total, { preco }) => total + preco, 0);
+console.log(`\n>>> [REDUCE] Total do catálogo: R$ ${precoTotal.toFixed(2)}`);
+
+// 5. Destructuring + template literal.
+const { nome, preco } = catalogoOriginal[3];
+console.log('\n>>> [DESTRUCTURING + TEMPLATE LITERAL]');
+console.log(`${nome} custa R$${preco.toFixed(2)}`);
+
+// 3. Métodos da classe Produto.
+console.log('\n>>> [MÉTODOS DA CLASSE]');
+console.log(catalogoOriginal[3].exibirInfo());
+console.log(
+  `Com ${(descontoPadrao * 100).toFixed(0)}% de desconto: R$ ${catalogoOriginal[3]
+    .aplicarDesconto(descontoPadrao)
+    .toFixed(2)}`,
+);
+
+// 7A. Operador ternário: indica se cada produto está em promoção.
+console.log('\n>>> [TERNÁRIO] Status de promoção:');
+catalogoOriginal.forEach((produto) => {
+  const statusPromocao = produto.preco > 0 && produto.preco <= 1200 ? 'Em promoção' : 'Preço regular';
+  console.log(`${produto.nome}: ${statusPromocao}`);
+});
+
+// 7B. Spread operator: clona o array e adiciona um novo produto.
+const novoProduto = new Produto('Integração Zabbix + ServiceNow', 0, 'Integração');
+const catalogoExpandido = [...catalogoOriginal, novoProduto];
+
+console.log('\n>>> [SPREAD] Expansão do catálogo:');
+console.log(`Catálogo original: ${catalogoOriginal.length} itens`);
+console.log(`Catálogo expandido: ${catalogoExpandido.length} itens`);

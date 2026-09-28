@@ -1,24 +1,28 @@
-/** Representa um item demonstrativo da vitrine de soluções de TI. */
+/**
+ * Representa um produto da vitrine acadêmica de soluções de TI.
+ * Os valores utilizados no projeto são fictícios e apenas demonstrativos.
+ */
 export class Produto {
-  constructor({ codigo, nome, fabricante, categoria, preco, descricao }) {
-    if (!codigo || !nome || !fabricante || !categoria || !descricao) {
-      throw new TypeError('Todos os campos textuais do produto são obrigatórios.');
+  constructor(nome, preco, categoria) {
+    if (!nome || !categoria) {
+      throw new TypeError('Nome e categoria são obrigatórios.');
     }
 
     if (typeof preco !== 'number' || !Number.isFinite(preco) || preco < 0) {
       throw new RangeError('O preço deve ser um número finito e não negativo.');
     }
 
-    this.codigo = codigo;
     this.nome = nome;
-    this.fabricante = fabricante;
-    this.categoria = categoria;
     this.preco = preco;
-    this.descricao = descricao;
+    this.categoria = categoria;
   }
 
-  apresentar() {
-    const { codigo, nome, fabricante, categoria, descricao } = this;
-    return `${codigo} | ${nome} (${fabricante}) | ${categoria} — ${descricao}`;
+  aplicarDesconto(percentualDesconto = 0.1) {
+    return this.preco * (1 - percentualDesconto);
+  }
+
+  exibirInfo() {
+    const { nome, preco } = this;
+    return `${nome} - Preço Base: R$ ${preco.toFixed(2)}`;
   }
 }
