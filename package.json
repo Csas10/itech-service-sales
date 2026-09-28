@@ -1,11 +1,26 @@
 {
   "name": "itech-service-sales",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Catálogo acadêmico de soluções Zabbix e ServiceNow em JavaScript ES6+",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "check": "node --check Produto.js && node --check index.js"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "console": "node index.js",
+    "check:console": "node --check Produto.js && node --check index.js",
+    "check": "npm run check:console && npm run build"
+  },
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.1.1",
+    "vite": "8.3.1"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

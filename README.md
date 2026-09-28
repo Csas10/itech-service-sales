@@ -1,64 +1,78 @@
-# iTech Service Sales — Catálogo de Soluções de TI
+# iTech Service Sales — Catálogo Zabbix + ServiceNow
 
-Protótipo acadêmico em JavaScript ES6+ executado no console com Node.js. O catálogo contextualiza a atividade como uma **Vitrine de Ativos e Integrações de TI**, reunindo exemplos relacionados a **Zabbix** e **ServiceNow**.
+Projeto acadêmico evolutivo de JavaScript e React. A **Unidade 1** implementou o catálogo no console com JavaScript ES6+. A **Unidade 2** transforma os mesmos conceitos em uma interface React criada com Vite.
 
-> **Escopo didático:** todos os preços são fictícios e utilizados somente para demonstrar os conceitos exigidos na atividade. O projeto não consulta fabricantes, não vende licenças e não realiza integração operacional real.
+> Todos os preços são fictícios e existem apenas para fins didáticos. O projeto não vende licenças, não consulta fabricantes e não representa preços oficiais de Zabbix ou ServiceNow.
 
-## Execução
+## Unidade 2 — React
 
-Não há dependências externas. Com Node.js instalado:
+### 1. Evolução do front-end: console × React
 
-```bash
-npm run check
-npm start
+Na Unidade 1, os dados eram manipulados em JavaScript e observados por meio do console. Em React, esses mesmos dados passam a ser representados visualmente com **componentes**, **props** e **JSX**. Em vez de atualizar manualmente elementos da página, descrevemos a interface a partir do estado da aplicação; quando o estado muda, o React renderiza novamente as partes necessárias da tela.
+
+### 2. Estrutura
+
+```text
+src/
+├── components/
+│   ├── ProdutoCard.jsx
+│   └── ProdutoForm.jsx
+├── data/
+│   └── produtos.js
+├── App.css
+├── App.jsx
+├── index.css
+└── main.jsx
 ```
 
-- `npm run check`: valida a sintaxe de `Produto.js` e `index.js`.
-- `npm start`: executa o catálogo no console.
+- `src/data/produtos.js`: array inicial com 5 produtos.
+- `src/components/ProdutoCard.jsx`: recebe `nome`, `preco`, `categoria` e `promocao` por props e renderiza o card.
+- `src/App.jsx`: importa os dados, usa `map()` dentro do JSX, calcula o total com `reduce()` e destaca promoções com renderização condicional.
+- `src/components/ProdutoForm.jsx`: desafio extra com `useState` para cadastrar novos produtos.
 
-## Estrutura
-
-| Arquivo | Responsabilidade |
-| --- | --- |
-| `Produto.js` | Exporta a classe `Produto`, seu construtor e os métodos `aplicarDesconto()` e `exibirInfo()`. |
-| `index.js` | Importa `Produto` e demonstra todos os requisitos do checklist JavaScript. |
-| `package.json` | Configura ES Modules com `"type": "module"` e os scripts de execução. |
-| `.gitignore` | Exclui dependências, saídas geradas, logs e arquivos de ambiente. |
-
-## Checklist de JavaScript
+### 3. Checklist da atividade
 
 | Requisito | Implementação |
 | --- | --- |
-| `var`, `let`, `const` | `categoriaPrincipal`, `descontoPadrao` e `nomeLoja`. |
-| Função tradicional | `calcularValorFinal(preco, desconto)`. |
-| Arrow function equivalente | `calcularValorFinalArrow(preco, desconto)`. |
-| Objeto literal de produto | `produtoLiteral` com `nome`, `preco` e `categoria`. |
-| Classe `Produto` | Propriedades `nome`, `preco` e `categoria`. |
-| `aplicarDesconto()` | Retorna o preço após aplicação do percentual informado. |
-| `exibirInfo()` | Retorna nome e preço formatados. |
-| Array com 5 produtos | `catalogoOriginal`. |
-| `map` | Gera um array contendo somente os nomes. |
-| `filter` | Filtra os produtos da categoria `Monitoramento`. |
-| `reduce` | Soma o preço total do catálogo. |
-| Destructuring | Extrai `nome` e `preco` de um produto. |
-| Template literal | Exibe `${nome} custa R$${preco}` no console. |
-| Módulos ES6 | `Produto.js` exporta a classe e `index.js` a importa. |
-| Operador ternário | Define `Em promoção` ou `Preço regular`. |
-| Spread operator | Cria `catalogoExpandido` com os 5 itens originais + 1 novo item. |
+| Projeto React | React + Vite |
+| `src/components/` | `ProdutoCard.jsx` e `ProdutoForm.jsx` |
+| `src/data/` | `produtos.js` |
+| Importar array no `App.jsx` | `produtosIniciais` |
+| Props `nome`, `preco`, `categoria` | `ProdutoCard` |
+| JSX em cards | `ProdutoCard.jsx` |
+| `map()` dentro do JSX | Lista de `ProdutoCard` no `App.jsx` |
+| `reduce()` | Calcula `precoTotal` |
+| Condicional/ternário | Destaque visual para `promocao` |
+| Formulário opcional | `ProdutoForm.jsx` |
+| `useState` | Estado do catálogo e do formulário |
+| Novos produtos renderizados | `setProdutos((atuais) => [...atuais, novoProduto])` |
+| Comparação console × React | README e seção visível na aplicação |
 
-## Resultado validado
+### 4. Execução
 
-A execução desta versão apresenta:
+Requisito de ambiente: Node.js **22.12+** para a versão de Vite usada nesta entrega.
 
-- **5 produtos** no catálogo original;
-- `map` com apenas os 5 nomes;
-- `filter` retornando os itens de **Monitoramento**;
-- total calculado por `reduce` de **R$ 3.450,00**;
-- função tradicional e arrow function produzindo o mesmo valor final;
-- aplicação de desconto por método da classe;
-- status de promoção por operador ternário;
-- **6 produtos** no catálogo expandido criado com spread, preservando os 5 originais.
+```bash
+npm install
+npm run dev
+```
 
-## Contexto acadêmico
+O Vite exibirá a URL local do servidor de desenvolvimento, normalmente `http://localhost:5173`.
 
-O Zabbix representa o contexto de monitoramento e observabilidade, enquanto o ServiceNow representa gestão de serviços e operações de TI. Essa contextualização substitui a loja de varejo tradicional por um catálogo corporativo didático, sem alterar o objetivo central da atividade: demonstrar os fundamentos de JavaScript solicitados no checklist.
+### 5. Validação
+
+```bash
+npm run check
+```
+
+O comando preserva a verificação da Unidade 1 e executa também o build da aplicação React.
+
+Para executar novamente a versão em console da Unidade 1:
+
+```bash
+npm run console
+```
+
+## Resultado esperado da Unidade 2
+
+A página exibe cinco cards iniciais, o total fictício de **R$ 3.450,00**, destaque para produtos em promoção e uma seção explicando a evolução do console para React. O desafio extra permite cadastrar produtos e atualiza imediatamente os cards, a quantidade de itens, o total e a quantidade de promoções.
