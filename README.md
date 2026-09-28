@@ -1,20 +1,119 @@
 # iTech Service Sales — Catálogo Zabbix + ServiceNow
 
-Projeto acadêmico evolutivo de JavaScript e React. A **Unidade 1** implementou o catálogo no console com JavaScript ES6+. A **Unidade 2** transforma os mesmos conceitos em uma interface React criada com Vite.
+Projeto acadêmico evolutivo de JavaScript e React contextualizado como uma **Vitrine de Ativos e Integrações de TI**. Os exemplos usam Zabbix e ServiceNow apenas como contexto didático.
 
-> Todos os preços são fictícios e existem apenas para fins didáticos. O projeto não vende licenças, não consulta fabricantes e não representa preços oficiais de Zabbix ou ServiceNow.
+> Todos os preços são fictícios. O projeto não representa preços oficiais, não vende licenças e não executa integração operacional com os fabricantes.
 
-## Unidade 2 — React
+## Histórico das entregas
 
-### 1. Evolução do front-end: console × React
+- **Unidade 1:** catálogo em JavaScript ES6+ executado no console.
+- **Unidade 2:** evolução para React + Vite, cards, props, JSX, `map`, `reduce`, promoção e formulário com `useState`.
+- **Unidade 3:** componentes reutilizáveis, `children`, eventos, listas filtradas, busca, formulário, estado, `useEffect` e comunicação assíncrona.
 
-Na Unidade 1, os dados eram manipulados em JavaScript e observados por meio do console. Em React, esses mesmos dados passam a ser representados visualmente com **componentes**, **props** e **JSX**. Em vez de atualizar manualmente elementos da página, descrevemos a interface a partir do estado da aplicação; quando o estado muda, o React renderiza novamente as partes necessárias da tela.
+## Unidade 3 — Atividade Integrada
 
-### 2. Estrutura
+### Componentes e props
+
+O componente `ProdutoCard` permanece reutilizável e recebe por props:
+
+- `nome`
+- `preco`
+- `categoria`
+- `promocao`
+
+### Children
+
+O `ProdutoCard` também recebe `children`. No `App.jsx`, o botão **Remover** é passado dentro do card:
+
+```jsx
+<ProdutoCard nome={produto.nome} preco={produto.preco} categoria={produto.categoria}>
+  <button onClick={() => removerProduto(produto.id)}>Remover</button>
+</ProdutoCard>
+```
+
+Assim, o card define sua estrutura principal, mas o componente pai pode inserir conteúdo adicional reutilizável.
+
+### Estilização
+
+A estilização foi separada entre:
+
+- `src/App.css`: layout geral, formulário, filtros e grid;
+- `src/components/ProdutoCard.css`: estilos específicos do card e destaque de promoção.
+
+Os produtos são organizados em grid responsivo, e itens em promoção recebem destaque visual próprio.
+
+### Listas e keys
+
+A lista visível é renderizada com `map()` e usa `produto.id` como `key` única.
+
+Também existem duas formas de gerar listas diferentes:
+
+1. filtro por categoria;
+2. busca por nome.
+
+Os filtros podem ser combinados.
+
+### Formulário
+
+O componente `ProdutoForm` continua usando estado controlado e possui os campos obrigatórios da atividade:
+
+- nome;
+- preço;
+- categoria;
+- botão **Adicionar produto**.
+
+Ao enviar, o novo produto é comunicado ao `App` por callback e incluído no estado do catálogo.
+
+### Eventos e estado
+
+A atividade demonstra eventos em:
+
+- `onChange` dos campos;
+- `onSubmit` do formulário;
+- `onClick` do botão Remover;
+- alteração do filtro por categoria;
+- alteração da busca por nome.
+
+O estado React controla produtos, formulário, filtro, busca e status de carregamento.
+
+### Efeito colateral e comunicação assíncrona
+
+Para cobrir integralmente o objetivo geral da Unidade 3, o `App.jsx` usa `useEffect` e `fetch` para carregar `/catalogo-meta.json`, servido pelo próprio Vite.
+
+Isso demonstra uma requisição assíncrona sem depender de APIs externas ou credenciais. O catálogo continua funcional mesmo se o carregamento dos metadados falhar.
+
+## Checklist da Unidade 3
+
+| Requisito | Implementação |
+| --- | --- |
+| Componente reutilizável `ProdutoCard` | ✅ |
+| Props `nome`, `preco`, `categoria` | ✅ |
+| Propriedades personalizadas | ✅ promoção e demais props |
+| Uso de `children` | ✅ botão Remover |
+| CSS para componentes | ✅ `App.css` + `ProdutoCard.css` |
+| Cards em grid | ✅ |
+| Destaque de promoção | ✅ |
+| Lista com `map()` | ✅ |
+| `key` única | ✅ `produto.id` |
+| Lista filtrada por categoria | ✅ |
+| Formulário com nome, preço e categoria | ✅ |
+| Botão Adicionar produto | ✅ |
+| Filtro por categoria (extra) | ✅ |
+| Busca por nome (extra) | ✅ |
+| Estado e eventos | ✅ |
+| `useEffect` | ✅ |
+| Comunicação assíncrona | ✅ `fetch('/catalogo-meta.json')` |
+
+## Estrutura relevante
 
 ```text
+public/
+└── catalogo-meta.json
+
 src/
 ├── components/
+│   ├── CatalogoFiltros.jsx
+│   ├── ProdutoCard.css
 │   ├── ProdutoCard.jsx
 │   └── ProdutoForm.jsx
 ├── data/
@@ -25,54 +124,25 @@ src/
 └── main.jsx
 ```
 
-- `src/data/produtos.js`: array inicial com 5 produtos.
-- `src/components/ProdutoCard.jsx`: recebe `nome`, `preco`, `categoria` e `promocao` por props e renderiza o card.
-- `src/App.jsx`: importa os dados, usa `map()` dentro do JSX, calcula o total com `reduce()` e destaca promoções com renderização condicional.
-- `src/components/ProdutoForm.jsx`: desafio extra com `useState` para cadastrar novos produtos.
+## Execução
 
-### 3. Checklist da atividade
-
-| Requisito | Implementação |
-| --- | --- |
-| Projeto React | React + Vite |
-| `src/components/` | `ProdutoCard.jsx` e `ProdutoForm.jsx` |
-| `src/data/` | `produtos.js` |
-| Importar array no `App.jsx` | `produtosIniciais` |
-| Props `nome`, `preco`, `categoria` | `ProdutoCard` |
-| JSX em cards | `ProdutoCard.jsx` |
-| `map()` dentro do JSX | Lista de `ProdutoCard` no `App.jsx` |
-| `reduce()` | Calcula `precoTotal` |
-| Condicional/ternário | Destaque visual para `promocao` |
-| Formulário opcional | `ProdutoForm.jsx` |
-| `useState` | Estado do catálogo e do formulário |
-| Novos produtos renderizados | `setProdutos((atuais) => [...atuais, novoProduto])` |
-| Comparação console × React | README e seção visível na aplicação |
-
-### 4. Execução
-
-Requisito de ambiente: Node.js **22.12+** para a versão de Vite usada nesta entrega.
+Requer Node.js 22.12+.
 
 ```bash
 npm install
 npm run dev
 ```
 
-O Vite exibirá a URL local do servidor de desenvolvimento, normalmente `http://localhost:5173`.
-
-### 5. Validação
+Validação da entrega:
 
 ```bash
 npm run check
 ```
 
-O comando preserva a verificação da Unidade 1 e executa também o build da aplicação React.
+O mesmo quality gate também preserva a verificação da Unidade 1 e executa o build React/Vite.
 
-Para executar novamente a versão em console da Unidade 1:
+Para executar a Unidade 1 no console:
 
 ```bash
 npm run console
 ```
-
-## Resultado esperado da Unidade 2
-
-A página exibe cinco cards iniciais, o total fictício de **R$ 3.450,00**, destaque para produtos em promoção e uma seção explicando a evolução do console para React. O desafio extra permite cadastrar produtos e atualiza imediatamente os cards, a quantidade de itens, o total e a quantidade de promoções.

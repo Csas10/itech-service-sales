@@ -95,7 +95,7 @@ export function ProdutoForm({ onAdicionarProduto }) {
         Marcar como promoção
       </label>
 
-      <button type="submit">Adicionar ao catálogo</button>
+      <button type="submit">Adicionar produto</button>
     </form>
   );
 }

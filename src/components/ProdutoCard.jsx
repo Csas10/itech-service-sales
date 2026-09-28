@@ -1,10 +1,12 @@
+import './ProdutoCard.css';
+
 const formatarMoeda = (valor) =>
   new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
   }).format(valor);
 
-export function ProdutoCard({ nome, preco, categoria, promocao }) {
+export function ProdutoCard({ nome, preco, categoria, promocao, children }) {
   return (
     <article className={`produto-card ${promocao ? 'produto-card--promocao' : ''}`}>
       <div className="produto-card__topo">
@@ -19,6 +21,8 @@ export function ProdutoCard({ nome, preco, categoria, promocao }) {
       </p>
 
       <p className="produto-card__nota">Valor fictício para atividade acadêmica.</p>
+
+      {children ? <div className="produto-card__acoes">{children}</div> : null}
     </article>
   );
 }
