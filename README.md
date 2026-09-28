@@ -60,7 +60,7 @@ O componente `ProdutoForm` continua usando estado controlado e possui os campos 
 - nome;
 - preço;
 - categoria;
-- botão **Adicionar ao catálogo**.
+- botão **Adicionar produto**.
 
 Ao enviar, o novo produto é comunicado ao `App` por callback e incluído no estado do catálogo.
 
