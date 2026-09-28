@@ -1,114 +1,132 @@
 # iTech Service Sales
 
-Projeto acadêmico evolutivo de JavaScript e React contextualizado como uma **Vitrine de Ativos e Integrações de TI**. Os exemplos usam Zabbix e ServiceNow apenas como contexto didático.
+Projeto acadêmico evolutivo de JavaScript e React contextualizado como uma **Vitrine de Ativos e Integrações de TI** com exemplos de Zabbix e ServiceNow.
 
-> Todos os preços são fictícios. O projeto não representa preços oficiais, não vende licenças e não executa integração operacional com os fabricantes.
+> Todos os preços são fictícios. O projeto não representa preços oficiais, não vende licenças e não executa integração operacional com fabricantes.
 
-## Histórico das entregas
+## Histórico
 
-- **Unidade 1:** catálogo em JavaScript ES6+ executado no console.
-- **Unidade 2:** evolução para React + Vite, cards, props, JSX, `map`, `reduce`, promoção e formulário com `useState`.
-- **Unidade 3:** componentes reutilizáveis, `children`, eventos, listas filtradas, busca, formulário, estado, `useEffect` e comunicação assíncrona.
+- **Unidade 1:** JavaScript ES6+ no console.
+- **Unidade 2:** React + Vite, JSX, props, cards, listas, total e formulário.
+- **Unidade 3:** componentes reutilizáveis, `children`, eventos, filtros, busca, estado e primeira demonstração assíncrona.
+- **Unidade 4:** produtos carregados via `fetch` de `produtos.json`, `useEffect`, `async/await`, estado de carregamento e persistência em `localStorage`.
 
-## Unidade 3 — Atividade Integrada
+## Unidade 4 — Eventos, estado e comunicação assíncrona
 
-### Componentes e props
+### 1. Eventos
 
-O componente `ProdutoCard` permanece reutilizável e recebe por props:
-
-- `nome`
-- `preco`
-- `categoria`
-- `promocao`
-
-### Children
-
-O `ProdutoCard` também recebe `children`. No `App.jsx`, o botão **Remover** é passado dentro do card:
+Cada card possui um botão **Remover** com `onClick`:
 
 ```jsx
-<ProdutoCard nome={produto.nome} preco={produto.preco} categoria={produto.categoria}>
-  <button onClick={() => removerProduto(produto.id)}>Remover</button>
-</ProdutoCard>
+<button onClick={() => removerProduto(produto.id)}>Remover</button>
 ```
 
-Assim, o card define sua estrutura principal, mas o componente pai pode inserir conteúdo adicional reutilizável.
+O formulário usa `onSubmit` para cadastrar produtos. Os campos continuam controlados por `onChange`.
 
-### Estilização
+### 2. Estado com useState
 
-A estilização foi separada entre:
+O catálogo começa com um array vazio:
 
-- `src/App.css`: layout geral, formulário, filtros e grid;
-- `src/components/ProdutoCard.css`: estilos específicos do card e destaque de promoção.
+```jsx
+const [produtos, setProdutos] = useState([]);
+```
 
-Os produtos são organizados em grid responsivo, e itens em promoção recebem destaque visual próprio.
+Após o carregamento do JSON, `setProdutos` recebe os produtos iniciais. Novos produtos são adicionados ao estado e o botão Remover retira o item correspondente.
 
-### Listas e keys
+Também existem estados para:
 
-A lista visível é renderizada com `map()` e usa `produto.id` como `key` única.
+- carregamento;
+- erro de carregamento;
+- filtro por categoria;
+- busca por nome.
 
-Também existem duas formas de gerar listas diferentes:
+### 3. Simulação de API externa
 
-1. filtro por categoria;
-2. busca por nome.
+Os dados iniciais estão em:
 
-Os filtros podem ser combinados.
+```text
+public/produtos.json
+```
 
-### Formulário
+A função de comunicação fica isolada em:
 
-O componente `ProdutoForm` continua usando estado controlado e possui os campos obrigatórios da atividade:
+```text
+src/services/produtosApi.js
+```
 
-- nome;
-- preço;
-- categoria;
-- botão **Adicionar produto**.
+`fetch()` retorna uma **Promise**. A implementação final consome essa Promise usando `async/await`:
 
-Ao enviar, o novo produto é comunicado ao `App` por callback e incluído no estado do catálogo.
+```js
+export async function buscarProdutos(signal) {
+  const resposta = await fetch('/produtos.json', { signal });
+  const dados = await resposta.json();
+  return dados;
+}
+```
 
-### Eventos e estado
+### 4. useEffect e async/await
 
-A atividade demonstra eventos em:
+Na inicialização do componente, um `useEffect` chama uma função assíncrona:
 
-- `onChange` dos campos;
-- `onSubmit` do formulário;
-- `onClick` do botão Remover;
-- alteração do filtro por categoria;
-- alteração da busca por nome.
+```jsx
+useEffect(() => {
+  async function carregarProdutos() {
+    const produtosDaApi = await buscarProdutos();
+    setProdutos(produtosDaApi);
+  }
 
-O estado React controla produtos, formulário, filtro, busca e status de carregamento.
+  carregarProdutos();
+}, []);
+```
 
-### Efeito colateral e comunicação assíncrona
+A implementação real também usa `AbortController`, tratamento de erro e reconciliação com os itens salvos no navegador.
 
-Para cobrir integralmente o objetivo geral da Unidade 3, o `App.jsx` usa `useEffect` e `fetch` para carregar `/catalogo-meta.json`, servido pelo próprio Vite.
+Enquanto a Promise ainda não terminou, a interface exibe:
 
-Isso demonstra uma requisição assíncrona sem depender de APIs externas ou credenciais. O catálogo continua funcional mesmo se o carregamento dos metadados falhar.
+```text
+Carregando...
+Buscando os produtos iniciais em produtos.json.
+```
 
-## Checklist da Unidade 3
+### 5. Desafio extra — localStorage
+
+Produtos cadastrados pelo formulário são salvos sob a chave:
+
+```text
+itech-produtos-adicionados-v1
+```
+
+Ao recarregar a página:
+
+1. `produtos.json` é carregado novamente via `fetch`;
+2. os produtos cadastrados pelo usuário são lidos do `localStorage`;
+3. as duas fontes são combinadas por `id`.
+
+Se um produto criado pelo usuário for removido, ele também é retirado da persistência.
+
+## Checklist da Unidade 4
 
 | Requisito | Implementação |
 | --- | --- |
-| Componente reutilizável `ProdutoCard` | ✅ |
-| Props `nome`, `preco`, `categoria` | ✅ |
-| Propriedades personalizadas | ✅ promoção e demais props |
-| Uso de `children` | ✅ botão Remover |
-| CSS para componentes | ✅ `App.css` + `ProdutoCard.css` |
-| Cards em grid | ✅ |
-| Destaque de promoção | ✅ |
-| Lista com `map()` | ✅ |
-| `key` única | ✅ `produto.id` |
-| Lista filtrada por categoria | ✅ |
-| Formulário com nome, preço e categoria | ✅ |
-| Botão Adicionar produto | ✅ |
-| Filtro por categoria (extra) | ✅ |
-| Busca por nome (extra) | ✅ |
-| Estado e eventos | ✅ |
-| `useEffect` | ✅ |
-| Comunicação assíncrona | ✅ `fetch('/catalogo-meta.json')` |
+| `onClick` para remover | ✅ |
+| `onSubmit` no formulário | ✅ |
+| `useState` na lista | ✅ |
+| Adicionar produto ao estado | ✅ |
+| Remover produto do estado | ✅ |
+| `produtos.json` simulando API | ✅ |
+| `fetch` dos produtos iniciais | ✅ |
+| Promise no carregamento | ✅ `fetch()` |
+| `useEffect` na inicialização | ✅ |
+| `async/await` | ✅ `buscarProdutos` e `carregarProdutos` |
+| Mensagem “Carregando...” | ✅ |
+| Persistência em `localStorage` (extra) | ✅ |
 
 ## Estrutura relevante
 
 ```text
 public/
-└── catalogo-meta.json
+├── catalogo-meta.json
+└── produtos.json
 
 src/
 ├── components/
@@ -116,8 +134,8 @@ src/
 │   ├── ProdutoCard.css
 │   ├── ProdutoCard.jsx
 │   └── ProdutoForm.jsx
-├── data/
-│   └── produtos.js
+├── services/
+│   └── produtosApi.js
 ├── App.css
 ├── App.jsx
 ├── index.css
@@ -133,15 +151,13 @@ npm install
 npm run dev
 ```
 
-Validação da entrega:
+Validação:
 
 ```bash
 npm run check
 ```
 
-O mesmo quality gate também preserva a verificação da Unidade 1 e executa o build React/Vite.
-
-Para executar a Unidade 1 no console:
+A Unidade 1 continua disponível com:
 
 ```bash
 npm run console

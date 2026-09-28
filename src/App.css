@@ -19,7 +19,7 @@ main {
 }
 
 .hero__subtitulo {
-  max-width: 760px;
+  max-width: 800px;
   margin: 0;
   font-size: 1.12rem;
   line-height: 1.7;
@@ -42,6 +42,61 @@ main {
   border-radius: 999px;
   color: #dcebf2;
   font-size: 0.88rem;
+}
+
+.estado-carregamento {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 28px;
+  padding: 30px;
+  border: 1px solid #d6e4eb;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.estado-carregamento h2 {
+  margin: 6px 0 8px;
+}
+
+.estado-carregamento p:last-child {
+  margin: 0;
+  color: #617085;
+}
+
+.carregando-indicador {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  border: 4px solid #d9e5eb;
+  border-top-color: #174f70;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.status-fonte,
+.aviso-erro {
+  margin: 24px 0 0;
+  padding: 14px 18px;
+  border-radius: 12px;
+}
+
+.status-fonte {
+  border: 1px solid #cfe3d6;
+  background: #eff8f2;
+  color: #285b3a;
+}
+
+.aviso-erro {
+  border: 1px solid #e0b0b0;
+  background: #fff3f3;
+  color: #8a2e2e;
 }
 
 .painel-resumo {
@@ -92,7 +147,6 @@ main {
   color: #617085;
 }
 
-.status-assincrono,
 .conceito-children {
   padding: 26px 30px;
   border: 1px solid #d6e4eb;
@@ -100,7 +154,6 @@ main {
   background: #eef6f9;
 }
 
-.status-assincrono p:last-child,
 .conceito-children p:last-child {
   margin-bottom: 0;
   color: #43566b;
