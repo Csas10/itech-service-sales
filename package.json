@@ -1,0 +1,11 @@
+{
+  "name": "itech-service-sales",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Catálogo acadêmico de soluções Zabbix e ServiceNow em JavaScript ES6+",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "check": "node --check Produto.js && node --check index.js"
+  }
+}
